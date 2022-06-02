@@ -1,41 +1,108 @@
 const express = require('express');
-const myHelper = require('../util/helper')
-const underscore = require('underscore')
+const lodash = require('lodash');
 
 const router = express.Router();
 
-router.get('/test-me', function (req, res) {
-    myHelper.printDate()
-    myHelper.getCurrentMonth()
-    myHelper.getCohortData()
-    let firstElement = underscore.first(['Sabiha','Akash','Pritesh'])
-    console.log('The first element received from underscope function is '+firstElement)
-    res.send('My first ever api!')
-});
-
 router.get('/hello', function (req, res) {
-   
-    res.send('Hello there!')
+
+    //using chunk function
+    let months = ['Jan', 'Feb', 'March', 'April', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+    let mChunk = lodash.chunk(months, 4)
+    console.log(mChunk)
+    res.send('My first ever api!')
+
+
+    //using tail function
+    let odd = []
+    for (i = 0; odd.length < 10; i++) {
+        if (i % 2 !== 0) {
+            odd.push(i)
+        }
+    }
+    let firstTenOdd = lodash.tail(odd)
+    console.log(firstTenOdd)
+
+
+    //using union function
+    let a1 = [1, 2, 3 ]
+    let a2 = [2, 3, 4]
+    let a3 = [4, 5, 6, 7]
+    let a4 = [5, 3, 6]
+    let a5 = [7, 8, 9]
+    let combinedArray = lodash.union(a1, a2, a3, a4, a5)
+    console.log(combinedArray)
+
+
+    //using fromPairs function
+    let arr = [
+        ['horror', 'The Shining'],
+        ['drama', 'Titanic'],
+        ['thriller', 'Shutter Island'],
+        ['fantasy', 'Pans Labyrinth']
+    ]
+    let objArr = lodash.fromPairs(arr);
+    console.log(objArr)
 });
 
-router.get('/candidates', function(req, res){
-    console.log('Query paramters for this request are '+JSON.stringify(req.query))
-    let gender = req.query.gender
-    let state = req.query.state
-    let district = req.query.district
-    console.log('State is '+state)
-    console.log('Gender is '+gender)
-    console.log('District is '+district)
-    let candidates = ['Akash','Suman']
-    res.send(candidates)
+
+
+// API Assignment
+
+let moviesList = ['Rang de basanti', 'The shining', 'Lord of the rings', 'Batman begins']
+
+// 1. API for GET/movies
+router.get('/movies', function (req, res) {
+    res.send(moviesList)
 })
 
-router.get('/candidates/:canidatesName', function(req, res){
-    console.log('The request objects is '+ JSON.stringify(req.params))
-    console.log('Candidates name is '+req.params.canidatesName)
-    res.send('Done')
+// 2/3. API for GET /movies/:indexNumber and handling
+router.get('/movies/:indexNumber', function (req, res) {
+    if (req.params.indexNumber < moviesList.length) {
+        var returnValue = moviesList[req.params.indexNumber]
+    } else {
+        returnValue = "Please enter a valid index number only between 0 and " + (moviesList.length - 1)
+    }
+    res.send(returnValue)
+
 })
+
+
+
+
+// API assignment
+
+var moviesObj = [{
+    'id': 1,
+    'name': 'The Shining'
+}, {
+    'id': 2,
+    'name': 'Incendies'
+}, {
+    'id': 3,
+    'name': 'Rang de Basanti'
+}, {
+    'id': 4,
+    'name': 'Finding Nemo'
+}]
+
+// 4. API for GET/films
+router.get('/films', function (req, res) {
+    res.send(moviesObj)
+})
+
+// 5. API for GET/films/:filmId and handling
+router.get('/films/:filmId', function (req, res) {
+    function movieInfo() {
+        for (var i = 0; i < moviesObj.length; i++) {
+            if (moviesObj[i].id === parseInt(req.params.filmId)) {
+                return moviesObj[i]
+            }
+        }
+        return "No movie exists with this id"
+    }
+    res.send(movieInfo())
+})
+
 
 
 module.exports = router;
-// adding this comment for no reason
