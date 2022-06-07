@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-mongoose.connect("mongodb+srv://Bidipta-BG:wHFCxvYIKQmhPro5@cluster0.n5vfx.mongodb.net/Bidipta", {
+mongoose.connect("mongodb+srv://Bidipta-BG:wHFCxvYIKQmhPro5@cluster0.n5vfx.mongodb.net/MongoSession3", {
         useNewUrlParser: true
     })
     .then(() => console.log("MongoDb is connected"))
