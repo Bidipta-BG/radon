@@ -10,7 +10,11 @@ router.get("/CBbooks", UserController.booksCB)
 
 router.get("/booksbyauthor", UserController.bookAuthor)
 
-router.get("/bookbyprice", UserController.bookbyPrice)
+router.get("/bookbyprice", UserController.bookByPrice)
+
+router.get("/bookbyauthorid/:author_id", UserController.bookById)
+
+router.get("/authorabove50", UserController.authorAbove50)
 
 
 module.exports = router;
