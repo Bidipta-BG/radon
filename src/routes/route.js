@@ -1,25 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const authorController= require("../controllers/authorController")
-const bookController= require("../controllers/bookController")
-const publisherController= require("../controllers/publisherController")
+const productController = require("../controllers/productController");
+const userController= require("../controllers/userController")
+const freeUserCheck = require("../middleware/freeUserCheck");
+const orderController = require("../controllers/orderController");
+const userAndProductCheck = require("../middleware/userAndProductValidate");
+const userModel = require('../models/userModel');
 
 
 
 
-router.post("/createauthor", authorController.createAuthor)
 
-router.post("/createpublisher", publisherController.createPublisher)
+router.post("/createproduct", productController.createProduct);
 
-router.post("/createbook", bookController.createBook)
+router.post("/createuser", freeUserCheck.freeUserCheckMW, userController.createUser);
 
-router.get("/getbook", bookController.getBook)
-
-router.put("/hardcoverupdate", bookController.hardCoverUpdate)
-
-router.put("/priceupdate", bookController.priceUpdate)
-
-
+router.post("/createorder",freeUserCheck.freeUserCheckMW, userAndProductCheck.userAndProductAvailable, orderController.createOrder);
 
 
 
