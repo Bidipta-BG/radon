@@ -5,7 +5,6 @@ const userController= require("../controllers/userController")
 const freeUserCheck = require("../middleware/freeUserCheck");
 const orderController = require("../controllers/orderController");
 const userAndProductCheck = require("../middleware/userAndProductValidate");
-const userModel = require('../models/userModel');
 
 
 
