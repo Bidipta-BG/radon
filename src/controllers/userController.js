@@ -4,17 +4,23 @@ const userModel = require("../models/userModel");
 
 
 const createUser = async function (req, res) {
+  try{
   let data = req.body;
   let savedData = await userModel.create(data);
   res.send({
     msg: savedData
-  });
+  })
+}
+  catch (err){
+  res.status(500).send({msg: "SERVER SIDE ERROR : ", error: err.message})
+}
 };
 
 
 
 
 const loginUser = async function (req, res) {
+  try{
   let userName = req.body.emailId;
   let password = req.body.password;
 
@@ -23,9 +29,8 @@ const loginUser = async function (req, res) {
     password: password
   });
   if (!user) {
-    return res.send({
-      status: false,
-      msg: "username or the password is not corerct",
+    return res.status(404).send({
+      msg: "PAGE NOT FOUND", error: err.message
     });
   } else {
     let token = jwt.sign({
@@ -41,18 +46,22 @@ const loginUser = async function (req, res) {
       token: token
     });
   }
+}
+catch (err){
+  res.status(500).send({msg: "SERVER SIDE ERROR : ", error: err.message})
+}
 };
 
 
 
 
 const getUserData = async function (req, res) {
+  try{
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
   if (!userDetails) {
-    return res.send({
-      status: false,
-      msg: "No such user exists"
+    return res.status(404).send({
+      msg: "PAGE NOT FOUND", error: err.message
     })
   } else {
     res.send({
@@ -60,20 +69,26 @@ const getUserData = async function (req, res) {
       data: userDetails
     })
   }
+}
+  catch (err){
+  res.status(500).send({msg:"SERVER SIDE ERROR : ", error: err.message})
+}
 };
 
 
 
 
 const updateUser = async function (req, res) {
+  try{
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
   if (!user) {
-    return res.send("No such user exists");
+    return res.status(404).send({
+      msg: "PAGE NOT FOUND", error: err.message});
   } else {
     let userData = req.body;
     let updatedUser = await userModel.findOneAndUpdate({
-        _id: userId,
+        _id: userId
       },
       userData, {
         new: true
@@ -83,6 +98,10 @@ const updateUser = async function (req, res) {
       status: updatedUser
     });
   }
+}
+  catch (err){
+  res.status(500).send({msg: "SERVER SIDE ERROR : ", error: err.message})
+}
 };
 
 
@@ -90,6 +109,7 @@ const updateUser = async function (req, res) {
 
 
 const deleteUser = async function (req, res) {
+  try{
   let userId = req.params.userId;
 
   await userModel.findByIdAndUpdate(userId, {
@@ -98,6 +118,10 @@ const deleteUser = async function (req, res) {
   res.send({
     Message: "isDelete successfully updated"
   })
+}
+  catch (err){
+  res.status(500).send({msg: "SERVER SIDE ERROR : ", error: err.message})
+}
 };
 
 
