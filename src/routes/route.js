@@ -1,20 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const userController= require("../controllers/userController")
-const tokenAuth = require("../middlewares/tokenAuthentication")
+// const tokenAuth = require("../middlewares/tokenAuthentication")
 
 
 
 
-router.post("/users", userController.createUser  )
+router.get("/getDistrict", userController.getDistrict  )
 
-router.post("/login", userController.loginUser)
+router.get("/wheatherdata", userController.getWheather)
 
-router.get("/users/:userId",tokenAuth.tokenAuthenticator, userController.getUserData)
+router.get("/getlondontemp",userController.getLondonTemp)
 
-router.put("/users/:userId",tokenAuth.tokenAuthenticator, userController.updateUser)
+router.get("/citywheather",userController.citiesWheather)
 
-router.delete("/users/:userId",tokenAuth.tokenAuthenticator, userController.deleteUser);
+router.get("/getmemes",userController.getAllMemes)
+
+router.post("/memescreator",userController.memesCreator)
+
+// router.delete("/users/:userId",tokenAuth.tokenAuthenticator, userController.deleteUser);
 
 
 module.exports = router;
