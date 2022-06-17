@@ -29,8 +29,8 @@ const loginUser = async function (req, res) {
     password: password
   });
   if (!user) {
-    return res.status(404).send({
-      msg: "PAGE NOT FOUND", error: err.message
+    return res.status(400).send({
+      msg: "WRONG CREDENTIAL"
     });
   } else {
     let token = jwt.sign({
